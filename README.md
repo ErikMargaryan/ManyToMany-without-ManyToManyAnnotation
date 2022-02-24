@@ -10,7 +10,7 @@ PostReq:
     "lastName": "someName",
     "roleName": "somePermitions seperate by ','s"
 }
-Then can call it by id.
+Then can call it by user id(update, delete).
 
 My controller gets dto and returns also dto, service also by the same principe.
 So, enjoy!
