@@ -1,7 +1,6 @@
 package com.manyToMany.without_manyToMany.controller;
 
 import com.manyToMany.without_manyToMany.service.UserService;
-import com.manyToMany.without_manyToMany.persistence.entity.UserEntity;
 import com.manyToMany.without_manyToMany.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

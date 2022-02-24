@@ -2,17 +2,11 @@ package com.manyToMany.without_manyToMany.service;
 
 import com.manyToMany.without_manyToMany.persistence.entity.RoleEntity;
 import com.manyToMany.without_manyToMany.persistence.entity.UserEntity;
-//import com.manyToMany.without_manyToMany.persistence.entity.UserRoleEntity;
 import com.manyToMany.without_manyToMany.persistence.repository.RoleRepository;
 import com.manyToMany.without_manyToMany.persistence.repository.UserRepository;
-//import com.manyToMany.without_manyToMany.service.dto.RoleDto;
 import com.manyToMany.without_manyToMany.service.dto.UserDto;
-//import com.manyToMany.without_manyToMany.service.dto.UserRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class UserService {
