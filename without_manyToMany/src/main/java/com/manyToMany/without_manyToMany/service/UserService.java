@@ -61,10 +61,11 @@ public class UserService {
         }
         if (dto.getRoleName() != null) {
             RoleEntity roleEntity = new RoleEntity();
+            roleEntity.setId(roleRepository.findRoleId(dto.getRoleName()));
             roleEntity.setName(dto.getRoleName());
             RoleEntity finalRoleEntity = roleEntity;
             UserEntity finalUserEntity = userEntity;
-            userEntity.getListOfUserRole().stream()
+            userEntity.getListOfUserRole()
                     .forEach(userRoleEntity -> {
                         userRoleEntity.setRole(finalRoleEntity);
                         userRoleEntity.setUser(finalUserEntity);
@@ -72,6 +73,7 @@ public class UserService {
             roleEntity = roleRepository.save(roleEntity);
             userEntity = userRepository.save(userEntity);
         }
+        userEntity = userRepository.save(userEntity);
         return UserDto.mapEntityToDto(userEntity);
     }
 
