@@ -25,6 +25,9 @@ public class UserDto {
     private String roleName;
 
     public static UserEntity mapDtoToEntity(UserDto dto) {
+        if (dto == null) {
+            return null;
+        }
         UserEntity entity = new UserEntity();
         entity.setId(dto.getId());
         entity.setFirstName(dto.getFirstName());
