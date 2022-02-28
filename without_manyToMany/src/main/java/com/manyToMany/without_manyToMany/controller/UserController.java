@@ -2,6 +2,7 @@ package com.manyToMany.without_manyToMany.controller;
 
 import com.manyToMany.without_manyToMany.service.UserService;
 import com.manyToMany.without_manyToMany.service.dto.UserDto;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDto getUser(@PathVariable("id") Long id) throws Exception {
+    public UserDto getUser(@PathVariable("id") Long id) {
         return userService.getUser(id);
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<UserDto> addUser(@RequestBody UserDto dto) throws Exception {
+    @SneakyThrows
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto dto) {
         if (dto.getFirstName() == null) {
             throw new Exception("FirstName is required");
         }
