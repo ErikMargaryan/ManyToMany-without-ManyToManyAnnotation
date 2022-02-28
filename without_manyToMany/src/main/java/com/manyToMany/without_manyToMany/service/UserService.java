@@ -29,6 +29,7 @@ public class UserService {
 
         UserEntity userEntity = UserDto.mapDtoToEntity(dto);
         RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setId(roleRepository.findRoleId(dto.getRoleName()));
         roleEntity.setName(dto.getRoleName());
         UserEntity finalUserEntity = userEntity;
         RoleEntity finalRoleEntity = roleEntity;
@@ -37,11 +38,14 @@ public class UserService {
                     userRoleEntity.setUser(finalUserEntity);
                     userRoleEntity.setRole(finalRoleEntity);
                 });
-        roleEntity = roleRepository.save(roleEntity);
+        if (roleRepository.findRoleId(dto.getRoleName()) == null) {
+            roleEntity = roleRepository.save(roleEntity);
+        }
         userEntity = userRepository.save(userEntity);
 
         return UserDto.mapEntityToDto(userEntity);
     }
+
     @SneakyThrows
     public UserDto getUser(Long id) {
         UserEntity userEntity = userRepository.findById(id)
