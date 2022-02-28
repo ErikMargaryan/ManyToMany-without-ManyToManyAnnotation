@@ -42,8 +42,8 @@ public class UserService {
 
         return UserDto.mapEntityToDto(userEntity);
     }
-
-    public UserDto getUser(Long id) throws Exception {
+    @SneakyThrows
+    public UserDto getUser(Long id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new Exception("User not found"));
         return UserDto.mapEntityToDto(userEntity);
