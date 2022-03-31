@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -25,7 +27,12 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @OneToMany(mappedBy = "user", targetEntity = UserRoleEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserRoleEntity> listOfUserRole;
+//    @OneToMany(mappedBy = "user", targetEntity = UserRoleEntity.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<UserRoleEntity> listOfUserRole;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<RoleEntity> roles;
 
 }

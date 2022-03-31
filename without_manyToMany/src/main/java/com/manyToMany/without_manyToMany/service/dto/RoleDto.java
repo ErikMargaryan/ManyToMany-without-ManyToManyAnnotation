@@ -1,22 +1,18 @@
 package com.manyToMany.without_manyToMany.service.dto;
 
-import com.manyToMany.without_manyToMany.persistence.entity.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class RoleDto {
 
     private Long id;
 
-    private String firstName;
+    private String name;
 
-    private String lastName;
-
-    private Set<RoleEntity> roles;
 }
