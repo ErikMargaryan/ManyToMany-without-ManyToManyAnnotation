@@ -1,89 +1,79 @@
 package com.manyToMany.without_manyToMany.service;
 
-import com.manyToMany.without_manyToMany.persistence.entity.RoleEntity;
+//import com.manyToMany.without_manyToMany.persistence.entity.RoleEntity;
 import com.manyToMany.without_manyToMany.persistence.entity.UserEntity;
-import com.manyToMany.without_manyToMany.persistence.repository.RoleRepository;
+//import com.manyToMany.without_manyToMany.persistence.repository.RoleRepository;
 import com.manyToMany.without_manyToMany.persistence.repository.UserRepository;
-import com.manyToMany.without_manyToMany.persistence.repository.UserRoleRepository;
+//import com.manyToMany.without_manyToMany.persistence.repository.UserRoleRepository;
 import com.manyToMany.without_manyToMany.service.dto.UserDto;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final UserRoleRepository userRoleRepository;
+//    private final RoleRepository roleRepository;
+//    private final UserRoleRepository userRoleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
+    public UserService(UserRepository userRepository) {
+//            , RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.userRoleRepository = userRoleRepository;
+//        this.roleRepository = roleRepository;
+//        this.userRoleRepository = userRoleRepository;
     }
 
-    public UserDto createUser(UserDto dto) {
+    public UserEntity createUser(UserEntity entity) {
 
-        UserEntity userEntity = UserDto.mapDtoToEntity(dto);
-        RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setId(roleRepository.findRoleId(dto.getRoleName()));
-        roleEntity.setName(dto.getRoleName());
-        UserEntity finalUserEntity = userEntity;
-        RoleEntity finalRoleEntity = roleEntity;
-        userEntity.getListOfUserRole()
-                .forEach(userRoleEntity -> {
-                    userRoleEntity.setUser(finalUserEntity);
-                    userRoleEntity.setRole(finalRoleEntity);
-                });
-        if (roleRepository.findRoleId(dto.getRoleName()) == null) {
-            roleEntity = roleRepository.save(roleEntity);
-        }
-        userEntity = userRepository.save(userEntity);
-
-        return UserDto.mapEntityToDto(userEntity);
+        return userRepository.save(entity);
     }
 
     @SneakyThrows
-    public UserDto getUser(Long id) {
-        UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new Exception("User not found"));
-        return UserDto.mapEntityToDto(userEntity);
+    public Optional<UserEntity> getUser(Long id) {
+        return userRepository.findById(id);
     }
 
-    @SneakyThrows
-    public UserDto updateUser(Long id, UserDto dto) {
-        UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new Exception("User Not Found"));
-        if (dto.getFirstName() != null) {
-            userEntity.setFirstName(dto.getFirstName());
-        }
-        if (dto.getLastName() != null) {
-            userEntity.setLastName(dto.getLastName());
-        }
-        if (dto.getRoleName() != null) {
-            RoleEntity roleEntity = new RoleEntity();
-            roleEntity.setId(roleRepository.findRoleId(dto.getRoleName()));
-            roleEntity.setName(dto.getRoleName());
-            RoleEntity finalRoleEntity = roleEntity;
-            UserEntity finalUserEntity = userEntity;
-            userEntity.getListOfUserRole()
-                    .forEach(userRoleEntity -> {
-                        userRoleEntity.setRole(finalRoleEntity);
-                        userRoleEntity.setUser(finalUserEntity);
-                    });
-            roleEntity = roleRepository.save(roleEntity);
-            userEntity = userRepository.save(userEntity);
-        }
-        userEntity = userRepository.save(userEntity);
-        return UserDto.mapEntityToDto(userEntity);
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    @Transactional
-    public void deleteUser(Long id) {
-        roleRepository.deleteById(userRoleRepository.findRoleId(id));
-        userRepository.deleteById(id);
-    }
+//    @SneakyThrows
+//    public UserDto updateUser(Long id, UserDto dto) {
+//        UserEntity userEntity = userRepository.findById(id)
+//                .orElseThrow(() -> new Exception("User Not Found"));
+//        if (dto.getFirstName() != null) {
+//            userEntity.setFirstName(dto.getFirstName());
+//        }
+//        if (dto.getLastName() != null) {
+//            userEntity.setLastName(dto.getLastName());
+//        }
+//        if (dto.getRoleName() != null) {
+//            RoleEntity roleEntity = new RoleEntity();
+//            roleEntity.setId(roleRepository.findRoleId(dto.getRoleName()));
+//            roleEntity.setName(dto.getRoleName());
+//            RoleEntity finalRoleEntity = roleEntity;
+//            UserEntity finalUserEntity = userEntity;
+//            userEntity.getListOfUserRole()
+//                    .forEach(userRoleEntity -> {
+//                        userRoleEntity.setRole(finalRoleEntity);
+//                        userRoleEntity.setUser(finalUserEntity);
+//                    });
+//            roleEntity = roleRepository.save(roleEntity);
+//            userEntity = userRepository.save(userEntity);
+//        }
+//        userEntity = userRepository.save(userEntity);
+//        return UserDto.mapEntityToDto(userEntity);
+//    }
+//
+//    @Transactional
+//    public void deleteUser(Long id) {
+//        roleRepository.deleteById(userRoleRepository.findRoleId(id));
+//        userRepository.deleteById(id);
+//    }
 }
